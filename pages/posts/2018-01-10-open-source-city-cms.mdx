@@ -1,0 +1,171 @@
+---
+title: Open Source City CMS
+date: 2018/01/10
+description:
+tag: web development, civic tech, government, tech, CMS
+---
+
+import Image from 'next/image'
+
+Originally published: [Medium - Civiqueso](https://medium.com/city-of-austin-technology-and-innovation/open-source-city-cms-1-3-3e0b9b2b2b3a)
+
+This article is written from a technical perspective about the research, evaluation, and prototyping of an open source [Content Management System](https://en.wikipedia.org/wiki/Content_management_system) for the City of Austin. This work is the product of collaboration between engineering, user experience design, and content strategy teams within the City’s “Tech Stack” modernization project.
+
+_Disclaimer: Engineers have a tendency to over complicate things to tickle their own fancy. Beware of engineers, like me, and their jargon._
+
+<figure>
+  <Image
+    src="/images/keep it simple stupid.webp"
+    alt="comic of a man eating soup with a complicated, rube goldberg, style machine"
+    width={1400}
+    height={993}
+    priority
+    className="next-image"
+  />
+  <figcaption>Keep It Simple Stupid.</figcaption>
+</figure>
+
+In the fall of 2016, one of the inaugural City of Austin, Design, Technology & Innovation Fellows, [Jacob Paul](https://medium.com/u/2c977354e64f), wrote a post entitled [“How We’re Thinking About Content Management for City Government.”](https://medium.com/civiqueso/how-were-thinking-about-content-management-for-city-government-88f563497096) I’d like to offer this series of posts as an update on our progress.
+
+Since then, we’ve deepened our experience launching websites powered by content management systems. In this article, I will describe the **four key concepts of the CMS architecture** we are using to implement an open source CMS for the City of Austin.
+
+## 1. Microservices
+
+Microservices are independent applications that do only one thing and do it well. They can integrate with each other, but are built and maintained separately. As a result, each can use the tools most suited to the use case and technical context.
+
+As a counter example, think of an all-in-one kitchen set.
+
+<figure>
+  <Image
+    src="/images/the-whole-kitchen-sink.webp"
+    alt="basic kitchennette with a sink, stove, and fridge"
+    width={916}
+    height={492}
+    priority
+    className="next-image"
+  />
+  <figcaption>All-in-one monolithic system</figcaption>
+</figure>
+
+It might be convenient at first — easy to install and providing all the basic functionality you need. But when the oven breaks or we decide we need a bigger fridge, we’re going to have to work harder to bend the whole monolithic system to our will.
+
+Instead of using this type of all-in-one platform for the City’s website, we decided to take a different approach: We‘re creating independent components and connecting them in a flexible system. This will allow us to add, improve, and replace services without worrying about adversely affecting the larger system. This will also protect us from [vendor lock-in](https://en.wikipedia.org/wiki/Vendor_lock-in) since it avoids commitment to a particular tool.
+
+<figure>
+  <Image
+    src="/images/kitchen-components.webp"
+    alt="interchangeable kitchen components, oven, fridge, sink, etc."
+    width={720}
+    height={386}
+    priority
+    className="next-image"
+  />
+  <figcaption>Modular flexible system</figcaption>
+</figure>
+
+## 2. Decoupled (aka Headless) CMS
+
+Popular open source CMSs such as Drupal and Wordpress have a traditional system that includes two primary parts:
+
+1. An admin interface for writing content and managing data.
+2. An engine for displaying the content to website visitors.
+
+In a decoupled CMS, you separate the web page creation into its own service. The content editor interface remains part of the CMS package. Instead of creating the fully formatted public pages, the CMS is only responsible for providing content as a stream of data through an API.
+
+<figure>
+  <Image
+    src="/images/decoupled cms.webp"
+    alt="diagram of decoupled cms architecture with editor interface, content model, and database, connected to a public interface via an api"
+    width={514}
+    height={465}
+    priority
+    className="next-image"
+  />
+  <figcaption>Conceptual diagram of decoupled CMS architecture</figcaption>
+</figure>
+
+### Why do that?
+
+As you’ve already learned in Jacob’s article, this strategy has some key benefits:
+
+- **Reusability** increases since both the content and public-facing interface components can be utilized by other websites, native applications on other devices, or freestanding kiosks..
+- **Integration** with external applications via APIs is central to this approach, so there is potential for broader content and functionality provided by other third-party APIs. We also make it possible to expose parts of our content API to public civic tech communities to use in their own apps.
+- **Sustainability** is enhanced with the ability to switch out different parts of the CMS system. In the future, we could design new content editing experiences and new engines for rendering content without throwing away the whole system to start from scratch.
+
+In essence, we are designing a CMS that thinks beyond creating websites. It is designed to serve content to mobile phones, smart watches, Internet of Things devices, or whatever the future may bring.
+
+<figure>
+  <Image
+    src="/images/headless_cms.webp"
+    alt="diagram of headless cms architecture with an API serving data and content to multiple device types and platforms"
+    width={514}
+    height={465}
+    priority
+    className="next-image"
+  />
+  <figcaption>
+    Headless CMS provides data to various device interfaces via a public API
+  </figcaption>
+</figure>
+
+In light of those intentions, a decoupled approach that uses the CMS only for the administrative interface makes sense.
+
+But… if the CMS doesn’t generate the public interface, what does?
+
+## 3. Static Site Generator
+
+Static site generators produce lightweight flat files composed of HTML, CSS, and Javascript. When content is edited, it prompts the generator to rebuild the pages. It then deploys those lightweight static files to machines all over the world to spread the potential load of site visitors hitting the page simultaneously.
+
+This is in contrast to the traditional CMS pattern where web pages are created dynamically on a server **when content is requested**.
+
+Static Site Generators are common for sites where **scale and security** are paramount. The benefit of serving up flat HTML files is that they can be hosted anywhere and everywhere, like on a CDN. If your site is the target of a DDoS attack your visitor just gets served HTML files from the next closest node. More discussion of the benefits of static sites can be found in [this article](https://www.netlify.com/blog/2016/05/18/9-reasons-your-site-should-be-static/).
+
+<figure>
+  <Image
+    src="/images/gatsby.webp"
+    alt="diagram of gatsby framework of data sources (Markdwon, YAML, JSON, APIs), build tooling (GraphQL, HTML/CSS/React), and deploy options (Self-hosted, Netlify, S3, etc.)"
+    width={514}
+    height={465}
+    priority
+    className="next-image"
+  />
+  <figcaption>
+    An example Static Site Generator, Gatsby.js, has multiple potential data
+    sources, a build step, and an agnostic deployment strategy.
+  </figcaption>
+</figure>
+
+Now that we’ve identified how our code will be generated, what patterns should we use to present it?
+
+## 4. Templates vs Components
+
+**Templates** are sections of HTML that have sprinkles of logic mixed in. In the static site generator, [Jekyll](https://jekyllrb.com/), that logic is written in the Ruby language. User interactivity is written in separate Javascript files.
+
+**Components** are reusable, modular pieces of code that focus on smaller or atomic UI features. Components have HTML markup, Javascript interactivity (and sometimes CSS styling) included in same file. [React](https://reactjs.org/) and [Vue](https://vuejs.org/) are current leading examples of this paradigm within modern Javascript frameworks.
+
+How about a metaphor to illustrate these differences?
+
+<figure>
+  <Image
+    src="/images/built-in-shelves.webp"
+    alt="built in shelves on the left and a modular shelving unit on the right"
+    width={514}
+    height={465}
+    priority
+    className="next-image"
+  />
+  <figcaption>Built in shelves versus modular shelving unit</figcaption>
+</figure>
+
+Built in shelves are rigid, but still highly customizable to fit the needs of a wall. Modular shelving is both flexible and customizable. It is also reusable in case you ever decide to move to a new place.
+
+Templates are like built in shelves. They are fully capable and commonly used across CMSes. Components are more dynamic and flexible. They have advantages for reuse and sustainability. They are also the trending pattern in the web industry.
+
+## Conclusion
+
+These are the key concepts we think are important to consider as we design an Open Source City CMS.
+
+1. Microservices — how might we coordinate interactions between specialized apps?
+2. Decoupled CMS — how might we make content available in many interfaces?
+3. Static Site Generator — how might we build reusable front end code that can scale?
+4. Templates vs Components — how might we build reusable front end code that is fun to write, easy to maintain, and fast to prototype.
