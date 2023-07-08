@@ -1,0 +1,106 @@
+---
+title: 🛴 Explore Dockless Data with Austin Transportation
+date: 2019/01/19
+description:
+tag: web development, dockless, micromobility, open data, civic tech, open government
+author: Me & John Clary
+---
+
+import Image from 'next/image'
+
+Originally published: [Medium - ATD Data & Technology Services](https://medium.com/civiqueso/explore-dockless-data-with-austin-transportation-4a308aa5c18)
+
+<figure>
+  <Image
+    src="/images/blog/2019-01-19/scooters.webp"
+    alt="a group of people checking out scooters in Austin, Texas"
+    width={720}
+    height={405}
+    priority
+    className="next-image"
+  />
+  <figcaption>
+    Austin Transportation — Safety Street Team and Dockless Mobility —
+    https://flic.kr/p/28XmDpu
+  </figcaption>
+</figure>
+
+Dockless scooters and bicycles present cities with a unique set of political, administrative, and technical challenges. At the Austin Transportation Department, we are excited by the adoption of new, non-vehicular travel modes, but temper our excitement with concern for rider safety, and for potential negative impacts on the accessibility of our streets and public pathways, like sidewalks.
+
+The city has balanced these considerations by implementing operating rules which support innovation among mobility service providers, but with checks in place to measure the effects of these new services on the transportation network as a whole. On the technical side, our approach has been informed by the [Mobility Data Specification](https://github.com/openmobilityfoundation/mobility-data-specification) (MDS), which provides a shared data standard for dockless trip reporting.
+
+Our team has since become a steward of more than two million dockless trip records, and we’ve been working hard to build tools that help policy makers, engineers, and planners make sense of this data. We also believe we do our best work when we work openly: our software is inevitably easier to use when [we design for the 100%](https://www.austintech.org/designing-for-the-100). We pay more attention to security and privacy when we know every piece of data and line of code is available for download; we fail faster and collect more feedback when the public at large responds to our work. To that end, we’d like to share a new set of services so that together we can gain a better understanding of dockless mobility in Austin.
+
+## Introducing: Tools to share information and open data about dockless mobility in Austin
+
+<figure>
+  <Image
+    src="/images/blog/2019-01-19/dockless_demo.webp"
+    alt="paint markings for a dockless mobility parking area on a sidewalk in Austin, Texas"
+    width={1100}
+    height={694}
+    priority
+    className="next-image"
+  />
+  <figcaption>https://dockless.austintexas.io/</figcaption>
+</figure>
+
+To start things off, we’ve published our [Dockless Vehicle Trips dataset](https://data.austintexas.gov/Transportation-and-Mobility/Dockless-Vehicle-Trips/7d8e-dm7r/data), which represents more than 2 million (and counting) dockless
+trips in Austin. The dataset is updated on a daily basis, and can be exported to
+your format of choice, including via API endpoint. We hope others can use this data
+for their own analysis and insight.
+
+From there, we’ve built a number of tools which aim to help us make sense of this data. We’re especially excited about our [Dockless Data Explorer](https://github.com/cityofaustin/atd-dockless-dataviz), an interactive map that visualizes where dockless trips are starting and ending. We’re using [Mapbox’s open-source tools](https://www.mapbox.com/mapbox-gl-js/api/) to render the trip clusters as shaded, 3D hexagons.
+
+Be sure to also visit our [Dockless Reporting Dashboard](https://public.ridereport.com/austin), which pulls key metrics from the Dockless Vehicle Trips dataset to provide month-by-month summary statistics. This page helps our executives and public information office relay relevant, high-level data to the public.
+
+Finally, we’ve created the [Austin Dockless API](https://github.com/cityofaustin/atd-micromobility-api), which acts as a geospatial interface to our public trips dataset and powers the Dockless Data Explorer. The API can be queried by point, bounding box, or time range and returns data aggregated to our city-wide hexagon grid. We hope other transportation agencies can reuse our code to create their own interactive visualizations.
+
+## Cities of the World Unite
+
+The development of the Mobility Data Specification presents a promising example of how cities can unite to define their technology requirements collaboratively. The result has been an open forum in which cities, service providers, and other interested parties negotiate business needs, desired outcomes, and technological constraints to reach a data standard. This will reduce the number of instances where we solve a problem that our fellow municipalities have already solved.
+
+<figure>
+  <Image
+    src="/images/blog/2019-01-19/MDS-slide.webp"
+    alt="diagram of the Mobility API Architecture. Scooter and bike trips are collected by mobility providers and sent to cities with their own database that shares the MDS schema."
+    width={720}
+    height={405}
+    priority
+    className="next-image"
+  />
+  <figcaption>Presentation from Los Angeles Data + Donuts Meetup</figcaption>
+</figure>
+
+Although we’re enthusiastic about the MDS, our considerations for privacy extend beyond its scope, and so we’re paying close attention to the ongoing discussion about how we can best protect user privacy while collecting actionable data about the use of these mobility devices.
+
+We’ve followed [NACTO press releases](https://nacto.org/2018/10/29/detroit-sharedstreets-nacto-pilot-new-dockless-data-standard/) piloting similar data standards. And we’ve read recent [recommendations published by Harvard Kennedy School’s Civic Analytics Network](https://datasmart.ash.harvard.edu/news/article/civic-analytics-network-dockless-mobility-open-letter). We strongly agree that raw geolocated trip data constitutes personally identifiable information (PII), and we’re taking care to anonymize and blur trip attributes.
+
+We’re also working with Portland-based [Ride Report](https://ride.report/) to better monitor dockless operator fleets and enable transportation staff to enforce rules that provide a fair and safe marketplace. Lastly, we owe thanks to the volunteers of our local civic tech brigade, [Open Austin](https://www.open-austin.org/), for providing feedback on these tools.
+
+## What’s next?
+
+The new [Austin Strategic Mobility Plan (ASMP)](http://www.austintexas.gov/asmp) chapter on Smart Mobility envisions the City working with private sector actors to ensure that underserved communities are reached, while also incentivizing shared mobility solutions. We hope to move this initiative forward by supplying data and analytic tools to those who seek to make sense of this evolving technology space.
+
+We are also exploring opportunities to collect relevant data and establish standards with City departments like Public Health, Austin Police, and Austin-Travis County EMS. We look forward to the insights and data collected from the [federal Center for Disease Control and Prevention’s study on the health impact of dockless scooters](https://qz.com/1492227/cdc-will-study-public-health-risk-of-electric-scooters-in-austin/), currently underway.
+
+There’s plenty of work left to do, and we need your help! Send us your feedback to [transportation-data@austintexas.gov](mailto:transportation-data@austintexas.gov), and come hang out with us at an Open Austin Community Action Night!
+
+<figure>
+  <Image
+    src="/images/blog/2019-01-19/paint.webp"
+    alt="paint markings for a dockless mobility parking area on a sidewalk in Austin, Texas"
+    width={2042}
+    height={1160}
+    priority
+    className="next-image"
+  />
+  <figcaption>
+    Austin Transportation — Dockless Mobility Parking Areas —
+    https://flic.kr/p/261vjbx
+  </figcaption>
+</figure>
+
+We’d like to extend a thank you to [Sergio Garcia](https://github.com/sergiogcx) from the City of Austin, Office of Design & Delivery (ODD) for his contributions to our deployment architecture using Travis CI and Amazon Web Services. We’d also like to thank Laura Trujillo from ODD for editing this post along with Mary Vo, Public Information Specialist at Austin Transportation.
+
+About ATD Data & Technology Services: http://transportation.austintexas.io/about/
